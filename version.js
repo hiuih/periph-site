@@ -10,7 +10,7 @@ window.PERIPH_RELEASE = {
   },
   mac: {
     href: "downloads/periph-latest.dmg",
-    size: "~30 MB",
+    size: "12 MB",
     note: "macOS · Apple silicon & Intel",
   },
 };
