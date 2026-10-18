@@ -24,6 +24,16 @@
     $$('a[data-os="windows"]').forEach((a) => (a.href = R.windows.href));
     $$('a[data-os="mac"]').forEach((a) => (a.href = R.mac.href));
   }
+  // Count download clicks (GoatCounter, no cookies). Off unless version.js sets a code.
+  if (R && R.goatcounter) {
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest && e.target.closest("a[href]");
+      if (!a || (a.href !== R.windows.href && a.href !== R.mac.href)) return;
+      const os = a.href === R.mac.href ? "macos" : "windows";
+      const q = new URLSearchParams({ p: `/download/${os}/${R.version}`, t: `Download ${os} ${R.version}`, e: "true", rnd: Math.random().toString(36).slice(2) });
+      new Image().src = `https://${R.goatcounter}.goatcounter.com/count?${q}`;
+    });
+  }
   // Put the visitor's OS first.
   const plat = ((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || "").toLowerCase();
   const isMac = /mac|iphone|ipad/.test(plat);

@@ -4,13 +4,16 @@ window.PERIPH_RELEASE = {
   version: "1.0.0",
   date: "2026-10-17",
   windows: {
-    href: "downloads/periph-setup-latest.exe",
+    href: "https://github.com/hiuih/periph-site/releases/download/v1.0.0/periph-setup-1.0.0.exe",
     size: "8 MB",
     note: "Windows 10 & 11 · 64-bit",
   },
   mac: {
-    href: "downloads/periph-latest.dmg",
+    href: "https://github.com/hiuih/periph-site/releases/download/v1.0.0/periph-1.0.0.dmg",
     size: "12 MB",
     note: "macOS · Apple silicon & Intel",
   },
+  // Download counter (GoatCounter site code, e.g. "periph" for periph.goatcounter.com).
+  // Only download clicks are counted: OS, country and browser, no cookies. Empty = off.
+  goatcounter: "",
 };
