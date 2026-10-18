@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>periph — GK61 &amp; G305 control without the bloat</title>
+<meta name="description" content="periph is a tiny desktop app for Windows and macOS that replaces Logitech G HUB and the keyboard vendor's driver. Remap the Epomaker/Skyloong GK61, paint its RGB, record macros, and set the Logitech G305's DPI, polling rate and buttons — saved straight to the devices.">
+<meta name="theme-color" content="#0b0c0e">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="periph">
+<meta property="og:title" content="periph — your gear, without the bloat">
+<meta property="og:description" content="A tiny Windows &amp; macOS app for the GK61 keyboard and G305 mouse. Remap, macros, per-key RGB, DPI — saved on the device, nothing left running.">
+<meta property="og:image" content="og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The periph logo next to a glowing rainbow 60% keyboard, with the words: Kill the bloatware.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="periph — your gear, without the bloat">
+<meta name="twitter:description" content="A tiny Windows &amp; macOS app for the GK61 keyboard and G305 mouse. Saved on the device, nothing left running.">
+<meta name="twitter:image" content="og.png">
+<link rel="preload" href="fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/plex.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script src="version.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+
+<header class="top" id="top">
+  <div class="wrap top-in">
+    <a class="logo" href="#top" aria-label="periph home">
+      <svg width="28" height="28" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="24" height="24" rx="6" fill="#d4ff3a"/><circle cx="13" cy="11.2" r="3.9" fill="none" stroke="#0b0c0e" stroke-width="2.4"/><path d="M9.1 11.2v8.3" stroke="#0b0c0e" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>periph</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="links">
+        <li><a href="#keyboard">Keyboard</a></li>
+        <li><a href="#mouse">Mouse</a></li>
+        <li><a href="#weight">Lightweight</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-lime btn-sm" href="#download">Download</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================================================ HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-copy">
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span><span class="long">Epomaker / Skyloong&nbsp;</span>GK61 <span aria-hidden="true">+</span> <span class="long">Logitech&nbsp;</span>G305</p>
+    <h1 id="hero-title" class="display split">Your gear.<br>Minus the <em>bloat</em>.</h1>
+    <p class="lead">periph is a tiny desktop app that replaces G&nbsp;HUB and the keyboard vendor's driver. Set your keys, lights, macros and DPI once — they're written to the devices' own memory, then you close it. Nothing keeps running in the background.</p>
+    <div class="cta">
+      <a class="btn btn-lime btn-lg dl-primary" href="downloads/periph-setup-latest.exe" download data-os="windows">
+        <svg class="os-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.1l7.4-1v7.2H3V5.1zm8.4-1.2L21 2.5v8.8h-9.6V3.9zM3 12.6h7.4v7.3L3 18.9v-6.3zm8.4 0H21v8.9l-9.6-1.4v-7.5z"/></svg>
+        <span class="dl-label">Download for Windows</span>
+      </a>
+      <a class="btn btn-ghost btn-lg dl-secondary" href="downloads/periph-latest.dmg" download data-os="mac">
+        <svg class="os-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>
+        <span class="dl-label">macOS</span>
+      </a>
+    </div>
+    <p class="meta mono"><span data-rel="version">v1.0.0</span> · <span data-rel="winsize">8 MB</span> · no account · no telemetry</p>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="stage-glow" aria-hidden="true"></div>
+    <div class="board-tilt" id="tilt">
+      <canvas id="kb" role="img" aria-label="An animated GK61 60% keyboard showing per-key RGB lighting. It lights up the keys you press on your own keyboard."></canvas>
+    </div>
+    <div class="wrap fx-bar">
+      <div class="fx" role="group" aria-label="Lighting effect">
+        <button type="button" class="fx-b" data-fx="wave" aria-pressed="true">Wave<i aria-hidden="true"></i></button>
+        <button type="button" class="fx-b" data-fx="ripple" aria-pressed="false">Ripple<i aria-hidden="true"></i></button>
+        <button type="button" class="fx-b" data-fx="breathe" aria-pressed="false">Breathing<i aria-hidden="true"></i></button>
+        <button type="button" class="fx-b" data-fx="react" aria-pressed="false">Reactive<i aria-hidden="true"></i></button>
+        <button type="button" class="fx-b" data-fx="paint" aria-pressed="false">Paint<i aria-hidden="true"></i></button>
+      </div>
+      <div class="swatches" id="swatches" role="group" aria-label="Paint colour" hidden></div>
+      <p class="hint mono" id="hint" aria-live="polite"><kbd>type</kbd> anything — the board is listening</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="specs" aria-label="At a glance">
+      <li><b data-count="0" data-from="3">0</b><span>processes left running</span></li>
+      <li><b data-count="2">2</b><span>key layers, base + Fn</span></li>
+      <li><b data-count="30">30</b><span>lighting modes incl. 7 per-key</span></li>
+      <li><b data-count="5">5</b><span>DPI stages on the G305</span></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ============================================================ MARQUEE -->
+<div class="band" aria-hidden="true">
+  <div class="band-track" id="band">
+    <span>Wave spectrum</span><i></i><span class="o">Ripple</span><i></i><span>Vortex</span><i></i><span class="o">Glowing fish</span><i></i><span>Breathing</span><i></i><span class="o">Snake marquee</span><i></i><span>Colorful fountain</span><i></i><span class="o">Spectrum cycle</span><i></i><span>Heart</span><i></i><span class="o">Surfing cross</span><i></i><span>Wild dance</span><i></i><span class="o">Light on press</span><i></i>
+  </div>
+</div>
+
+<!-- ============================================================ KEYBOARD -->
+<section class="sec" id="keyboard" aria-labelledby="kb-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="kicker mono">01 · Keyboard · GK61</p>
+      <h2 id="kb-title" class="h2 split">Every key. Both layers.<br><span class="muted">Every light.</span></h2>
+      <p class="sec-lead">Everything the vendor driver does, in a window that opens instantly and doesn't look like it was made in 2009.</p>
+    </header>
+
+    <div class="bento">
+      <article class="card c-remap reveal">
+        <div class="ill ill-remap" aria-hidden="true">
+          <span class="cap">Caps</span><span class="arrow"></span><span class="cap on">Esc</span>
+          <span class="cap sm">Fn</span><span class="plus">+</span><span class="cap sm">J</span><span class="arrow"></span><span class="cap on sm">◀◀</span>
+        </div>
+        <h3>Remap base and Fn layers</h3>
+        <p>Put anything on any key: a key, a shortcut with modifiers, a second key, a macro — or switch it off. Do it again on the Fn layer for a second set of keys behind every key.</p>
+      </article>
+
+      <article class="card c-media reveal">
+        <div class="ill ill-chips" aria-hidden="true">
+          <span>Play/Pause</span><span>Next Track</span><span>Volume Up</span><span>Mute</span><span>Calculator</span><span>Left Click</span><span>Mouse Back</span><span>Browser Home</span><span>Ctrl+Shift+T</span><span>Search</span>
+        </div>
+        <h3>Media, mouse &amp; shortcut keys</h3>
+        <p>13 media and launcher keys, 5 mouse buttons, and any modifier combo — Ctrl, Shift, Alt, Win on either side.</p>
+      </article>
+
+      <article class="card c-macro reveal">
+        <div class="ill ill-timeline" aria-hidden="true">
+          <span class="st"><i class="dn"></i>Ctrl</span><span class="ms">42 ms</span><span class="st"><i class="dn"></i>C</span><span class="ms">88 ms</span><span class="st"><i class="up"></i>C</span><span class="ms">31 ms</span><span class="st"><i class="up"></i>Ctrl</span><span class="ms">250 ms</span><span class="st"><i class="dn"></i>Left click</span>
+        </div>
+        <h3>Macros with real timing</h3>
+        <p>Hit record and type. Every press, release and the gap between them is kept to the millisecond — or strip the delays out. Play once, repeat <i>n</i> times, loop while held, or toggle on and off. Macros run on the keyboard itself.</p>
+      </article>
+
+      <article class="card c-light reveal">
+        <div class="ill ill-modes" aria-hidden="true">
+          <span style="--g:conic-gradient(#ff4d4d,#ffd23a,#5ee08a,#3ab7ff,#b26cff,#ff4d4d)"></span>
+          <span style="--g:linear-gradient(90deg,#ff4d4d,#ffd23a,#5ee08a,#3ab7ff,#b26cff)"></span>
+          <span style="--g:radial-gradient(circle,#d4ff3a 0 20%,#1a1d22 21% 35%,#d4ff3a 36% 45%,#1a1d22 46%)"></span>
+          <span style="--g:linear-gradient(90deg,#15171a,#3ab7ff,#15171a)"></span>
+          <span style="--g:radial-gradient(circle at 50% 100%,#ffd23a,#ff4d4d 40%,#1a1d22 70%)"></span>
+          <span style="--g:repeating-linear-gradient(45deg,#ff4d4d 0 8px,#3ab7ff 8px 16px,#5ee08a 16px 24px)"></span>
+          <span style="--g:linear-gradient(90deg,#1a1d22 20%,#ffd23a 20% 45%,#1a1d22 45% 55%,#ffd23a 55% 80%,#1a1d22 80%)"></span>
+          <span style="--g:radial-gradient(circle,#ff4d8a 0 30%,#1a1d22 31%)"></span>
+        </div>
+        <h3>Every lighting effect</h3>
+        <p>All 18 built-in effects — vortex, ripple, wave spectrum, glowing fish, fountain and the rest — plus 5 game modes. Five speed and five brightness steps, seven colours or rainbow.</p>
+      </article>
+
+      <article class="card c-paint reveal">
+        <div class="ill ill-paint" aria-hidden="true" id="mini-paint"></div>
+        <h3>Per-key RGB painting</h3>
+        <p>Pick a colour, drag across the board. Seven custom slots, each its own layout. Try it on the keyboard up top — hit <b>Paint</b>.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ STORY (pinned) -->
+<section class="story" id="story" aria-labelledby="story-title">
+  <div class="story-pin">
+    <div class="wrap story-in">
+      <div class="story-copy">
+        <p class="kicker mono">Inside the GK61</p>
+        <h2 id="story-title" class="h2 split">It all lives<br><span class="muted">on the board.</span></h2>
+        <ol class="steps" id="steps">
+          <li class="on"><span class="sn mono">01</span><span><b>Keymap</b>Both layers are flashed into the keyboard's controller. Plug it into any machine and your remaps are already there.</span></li>
+          <li><span class="sn mono">02</span><span><b>Lighting</b>The effect, speed, brightness, colour and all seven per-key layouts are stored on the board and run by it.</span></li>
+          <li><span class="sn mono">03</span><span><b>Macros</b>Recorded macros are written to the keyboard's memory and play back from the board itself — no app, no driver.</span></li>
+        </ol>
+      </div>
+      <div class="scene-wrap" aria-hidden="true">
+        <div class="scene" id="scene">
+          <canvas class="ly" data-ly="case"></canvas>
+          <canvas class="ly" data-ly="pcb"></canvas>
+          <canvas class="ly" data-ly="led"></canvas>
+          <canvas class="ly" data-ly="caps"></canvas>
+        </div>
+        <div class="scene-tags mono" id="scene-tags"><span>keycaps</span><span>RGB</span><span>controller</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ MOUSE -->
+<section class="sec sec-mouse" id="mouse" aria-labelledby="mouse-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="kicker mono">02 · Mouse · G305</p>
+      <h2 id="mouse-title" class="h2 split">G HUB, uninstalled.<br><span class="muted">Your DPI, still there.</span></h2>
+      <p class="sec-lead">periph writes straight into the G305's onboard profile — so your stages, polling rate and buttons work on any computer, with nothing installed.</p>
+    </header>
+
+    <div class="mouse-grid">
+      <div class="card mouse-vis reveal">
+        <svg class="g305" id="g305" viewBox="0 0 200 320" role="group" aria-label="G305 top view. Buttons are numbered 1 to 6.">
+          <defs>
+            <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#23272e"/><stop offset="1" stop-color="#14161a"/></linearGradient>
+            <radialGradient id="led" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#d4ff3a"/><stop offset="1" stop-color="#d4ff3a" stop-opacity="0"/></radialGradient>
+          </defs>
+          <path d="M100 10C50 10 24 48 24 112v84c0 70 32 114 76 114s76-44 76-114v-84C176 48 150 10 100 10z" fill="url(#shell)" stroke="#3a3f47" stroke-width="2"/>
+          <g class="mb" data-b="0"><path d="M98 12C54 14 27 48 26 110l72 0z" /></g>
+          <g class="mb" data-b="1"><path d="M102 12c44 2 71 36 72 98l-72 0z" /></g>
+          <g class="mb" data-b="2"><rect x="90" y="40" width="20" height="44" rx="10"/></g>
+          <g class="mb" data-b="5"><rect x="91" y="96" width="18" height="12" rx="4"/></g>
+          <g class="mb side" data-b="4"><rect x="16" y="128" width="12" height="36" rx="5"/></g>
+          <g class="mb side" data-b="3"><rect x="16" y="170" width="12" height="36" rx="5"/></g>
+          <circle cx="100" cy="102" r="22" fill="url(#led)" class="led" opacity=".0"/>
+          <g class="nums" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" aria-hidden="true">
+            <text x="58" y="72">1</text><text x="142" y="72">2</text><text x="100" y="30">3</text>
+            <text x="100" y="128">6</text><text x="44" y="150">5</text><text x="44" y="192">4</text>
+          </g>
+          <text x="100" y="262" text-anchor="middle" class="brand-mark" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="3">G305</text>
+        </svg>
+        <div class="batt mono" aria-label="Battery example: 84 percent">
+          <svg width="26" height="14" viewBox="0 0 22 12" aria-hidden="true"><rect x=".5" y=".5" width="19" height="11" rx="2.5" fill="none" stroke="#5c6168"/><rect x="2.5" y="2.5" width="12.6" height="7" rx="1" fill="#5ee08a"/><rect x="20" y="4" width="2" height="4" rx="1" fill="#5c6168"/></svg>
+          84% <span class="dim">battery, read live</span>
+        </div>
+      </div>
+
+      <div class="card mouse-ctl reveal">
+        <div class="row-head">
+          <span class="lbl">DPI stages</span>
+          <span class="lbl mono dim">Button 6 cycles · 200–12,000</span>
+        </div>
+        <div class="stages" id="stages" role="radiogroup" aria-label="DPI stage"></div>
+        <label class="slider">
+          <span class="lbl mono"><span id="stage-name">Stage 3</span> <b id="dpi-val">1600</b> DPI</span>
+          <input type="range" id="dpi" min="200" max="12000" step="50" value="1600" aria-describedby="dpi-help">
+        </label>
+        <div class="pad-wrap">
+          <canvas id="pad" class="pad" role="img" aria-label="Sensitivity demo. Move your pointer or finger over this pad and the dot moves at the selected DPI."></canvas>
+          <p class="pad-cap mono" id="dpi-help"><span id="pad-mult">2.0×</span> the speed of 800 DPI · move over the pad</p>
+        </div>
+        <div class="row-head">
+          <span class="lbl">Polling rate</span>
+          <span class="lbl mono dim" id="poll-ms">1 ms between reports</span>
+        </div>
+        <div class="seg" id="poll" role="radiogroup" aria-label="Polling rate">
+          <button type="button" role="radio" aria-checked="false" data-hz="125">125 Hz</button>
+          <button type="button" role="radio" aria-checked="false" data-hz="250">250 Hz</button>
+          <button type="button" role="radio" aria-checked="false" data-hz="500">500 Hz</button>
+          <button type="button" role="radio" aria-checked="true" data-hz="1000">1000 Hz</button>
+        </div>
+      </div>
+
+      <div class="card mouse-btns reveal">
+        <div class="row-head"><span class="lbl">Buttons</span><span class="lbl mono dim">all 6, remappable</span></div>
+        <ol class="btnlist" id="btnlist"></ol>
+        <p class="small dim">Clicks, DPI up / down / cycle / shift, media keys, any keyboard shortcut — or disabled.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ WEIGHT -->
+<section class="sec" id="weight" aria-labelledby="weight-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="kicker mono">03 · Lightweight</p>
+      <h2 id="weight-title" class="h2 split">Set it. Close it.<br><span class="muted">Forget it exists.</span></h2>
+      <p class="sec-lead">Vendor suites stay resident forever — tray icons, updaters, helper services. periph saves to the device and gets out of the way.</p>
+    </header>
+
+    <div class="weigh">
+      <div class="card weigh-bars reveal">
+        <p class="lbl">Size on disk</p>
+        <div class="bar-row">
+          <div class="bar-name"><b>Logitech G HUB</b><span class="dim mono">mouse only</span></div>
+          <div class="bar"><span class="fill fill-ghub" style="--w:100%"></span></div>
+          <div class="bar-num mono"><span data-count="500" data-prefix="~" data-suffix=" MB">~500 MB</span><sup>*</sup></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name"><b>periph</b><span class="dim mono">keyboard + mouse</span></div>
+          <div class="bar"><span class="fill fill-periph" style="--w:5%"></span></div>
+          <div class="bar-num mono lime"><span data-rel="winsize" data-count-text>8 MB</span></div>
+        </div>
+        <p class="lbl" style="margin-top:28px">Running in the background, after setup</p>
+        <div class="procs">
+          <div class="proc-col">
+            <b>G HUB</b>
+            <ul class="mono">
+              <li><i></i>lghub.exe</li>
+              <li><i></i>lghub_agent.exe</li>
+              <li><i></i>lghub_updater.exe</li>
+              <li class="dim">+ tray icon, at every boot</li>
+            </ul>
+          </div>
+          <div class="proc-col">
+            <b>periph</b>
+            <ul class="mono"><li class="none">nothing. it's closed.</li></ul>
+          </div>
+        </div>
+        <p class="foot small dim"><sup>*</sup> Approximate. G HUB's installed size varies by version and grows as it pulls in device modules. periph's size is the Windows build.</p>
+      </div>
+
+      <div class="card weigh-flow reveal">
+        <div class="flow" aria-hidden="true">
+          <div class="node"><svg width="22" height="22" viewBox="0 0 26 26"><rect x="1" y="1" width="24" height="24" rx="6" fill="#d4ff3a"/><circle cx="13" cy="11.2" r="3.9" fill="none" stroke="#0b0c0e" stroke-width="2.4"/><path d="M9.1 11.2v8.3" stroke="#0b0c0e" stroke-width="2.4" stroke-linecap="round"/></svg>periph</div>
+          <div class="wire"><span></span></div>
+          <div class="node mem"><span class="chip-ico"></span>onboard memory</div>
+        </div>
+        <h3>Stored on the device</h3>
+        <p>Keymaps, macros, lighting, DPI stages, polling rate and button bindings live in the keyboard's and mouse's own flash. Unplug, move to a work laptop, a Linux box, a console — your setup comes with you.</p>
+        <ul class="ticks">
+          <li>No account, no sign-in, no cloud</li>
+          <li>No telemetry, no auto-updater</li>
+          <li>One window, no tray icon, no startup entry</li>
+          <li>Your original G305 profile is backed up before the first write</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ DOWNLOAD -->
+<section class="sec" id="download" aria-labelledby="dl-title">
+  <div class="wrap">
+    <div class="dl reveal">
+      <div class="dl-glow" aria-hidden="true"></div>
+      <img src="icon-192.png" width="88" height="88" alt="" class="dl-icon">
+      <h2 id="dl-title" class="h2 split">Get periph</h2>
+      <p class="sec-lead">Version <span data-rel="version">1.0.0</span> · released <span data-rel="date">2026-10-17</span></p>
+      <div class="dl-btns">
+        <a class="dl-card" href="downloads/periph-setup-latest.exe" download data-rel="winhref">
+          <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.1l7.4-1v7.2H3V5.1zm8.4-1.2L21 2.5v8.8h-9.6V3.9zM3 12.6h7.4v7.3L3 18.9v-6.3zm8.4 0H21v8.9l-9.6-1.4v-7.5z"/></svg>
+          <span class="dl-t"><b>Windows</b><span class="mono" data-rel="winnote">Windows 10 &amp; 11 · 64-bit</span></span>
+          <span class="dl-s mono"><span data-rel="winsize">8 MB</span> · .exe</span>
+        </a>
+        <a class="dl-card" href="downloads/periph-latest.dmg" download data-rel="machref">
+          <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>
+          <span class="dl-t"><b>macOS</b><span class="mono" data-rel="macnote">macOS · Apple silicon &amp; Intel</span></span>
+          <span class="dl-s mono"><span data-rel="macsize">~30 MB</span> · .dmg</span>
+        </a>
+      </div>
+      <p class="small dim">Supports the Epomaker / Skyloong GK61 (USB) and the Logitech G305 on its LIGHTSPEED receiver. On a Mac, read the first two answers below before opening.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FAQ -->
+<section class="sec" id="faq" aria-labelledby="faq-title">
+  <div class="wrap faq-wrap">
+    <header class="sec-head reveal">
+      <p class="kicker mono">04 · FAQ</p>
+      <h2 id="faq-title" class="h2 split">Quick answers.</h2>
+    </header>
+    <div class="faq reveal">
+      <details>
+        <summary>macOS says periph "can't be opened" or is from an unidentified developer.</summary>
+        <div><p>The Mac build isn't signed with an Apple developer certificate yet, so Gatekeeper blocks a plain double-click. Drag periph to Applications, then <b>right-click it → Open</b>, and confirm with <b>Open</b>. You only do this once.</p>
+        <p>On newer macOS versions, if there's no Open button: try to open it once, then go to <b>System Settings → Privacy &amp; Security</b>, scroll down and click <b>Open Anyway</b>.</p></div>
+      </details>
+      <details>
+        <summary>Why does macOS ask for Input Monitoring?</summary>
+        <div><p>macOS treats talking to a keyboard as input monitoring, even though periph only sends it settings. Allow it in <b>System Settings → Privacy &amp; Security → Input Monitoring</b>, switch periph on, and reopen the app. Without it, the GK61 won't show up.</p></div>
+      </details>
+      <details>
+        <summary>Do I need to quit G HUB?</summary>
+        <div><p>Yes. G HUB holds on to the mouse and can overwrite the onboard profile with its own. Quit it from the tray icon (and stop it launching at startup) before you save from periph. Once your settings are on the mouse you can uninstall G HUB entirely. The same goes for the keyboard vendor's driver if it's running.</p></div>
+      </details>
+      <details>
+        <summary>Does periph have to stay open?</summary>
+        <div><p>No. Everything is written to the keyboard's and mouse's onboard memory. Close the app and your setup keeps working — on this computer or any other.</p></div>
+      </details>
+      <details>
+        <summary>Windows shows "Windows protected your PC".</summary>
+        <div><p>That's SmartScreen being cautious with a new, unsigned download. Click <b>More info → Run anyway</b>.</p></div>
+      </details>
+      <details>
+        <summary>Which devices does it support?</summary>
+        <div><p>Two, done properly: the 61-key Epomaker / Skyloong GK61 over USB, and the Logitech G305 through its LIGHTSPEED USB receiver. Other keyboards and mice aren't supported.</p></div>
+      </details>
+      <details>
+        <summary>Can I undo everything?</summary>
+        <div><p>The keyboard has a factory reset for both key layers built into the app. For the G305, periph saves a copy of the mouse's original onboard profile the first time it writes, and you can always set stages and buttons back by hand.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot-site">
+  <div class="wrap foot-in">
+    <a class="logo" href="#top" aria-label="Back to top">
+      <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="24" height="24" rx="6" fill="#d4ff3a"/><circle cx="13" cy="11.2" r="3.9" fill="none" stroke="#0b0c0e" stroke-width="2.4"/><path d="M9.1 11.2v8.3" stroke="#0b0c0e" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>periph</span>
+    </a>
+    <p class="small dim">periph <span data-rel="version">v1.0.0</span>. Not affiliated with Logitech, Epomaker or Skyloong. Product names are trademarks of their owners.</p>
+  </div>
+</footer>
+
+<script src="vendor/lenis.min.js" defer></script>
+<script src="main.js" defer></script>
+</body>
+</html>
