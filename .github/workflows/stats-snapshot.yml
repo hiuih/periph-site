@@ -2,7 +2,8 @@
 # GitHub only reports running totals; this appends them to history.json on the orphan branch
 # "stats-data" (not main, so GitHub Pages doesn't rebuild for every snapshot). The page reads
 # https://raw.githubusercontent.com/hiuih/periph-site/stats-data/history.json
-# Collected: release asset download counts, stars / forks / watchers, the latest release. Nothing else.
+# Collected: release asset download counts, stars / forks / watchers, the latest release,
+# the website's last commit time. Nothing else.
 name: stats snapshot
 
 on:

@@ -69,6 +69,8 @@
   const midnight = (t) => { const d = new Date(t); return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime(); };
   const addDays = (t, n) => { const d = new Date(t); return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n).getTime(); };
   const calDays = (a, b) => Math.round((midnight(b) - midnight(a)) / DAY);
+  // GitHub counts only drop if an asset is deleted, but say so honestly when they do.
+  const signed = (v) => (v < 0 ? "−" : "+") + num(Math.abs(v));
   function daysAgoText(t, now) {
     const d = calDays(t, now);
     return d <= 0 ? "today" : d === 1 ? "yesterday" : `${num(d)} days ago`;
@@ -750,8 +752,8 @@
     tick("total", m.dl);
     tagEl($("hero-tag"), m.tl.live ? "live" : "hist", m.tl.live ? "live" : "last known");
     const chips = [];
-    if (m.p.dl.today) chips.push(h("span", { class: "chip" }, h("b", { text: `+${num(m.p.dl.today.v)}` }), m.p.dl.today.partial ? "since tracking began" : "today"));
-    if (m.p.dl.week && !m.p.dl.week.partial) chips.push(h("span", { class: "chip" }, h("b", { text: `+${num(m.p.dl.week.v)}` }), "in 7 days"));
+    if (m.p.dl.today) chips.push(h("span", { class: "chip" }, h("b", { text: signed(m.p.dl.today.v) }), m.p.dl.today.partial ? "since tracking began" : "today"));
+    if (m.p.dl.week && !m.p.dl.week.partial) chips.push(h("span", { class: "chip" }, h("b", { text: signed(m.p.dl.week.v) }), "in 7 days"));
     if (S.sinceLast > 0) chips.push(h("span", { class: "chip new" }, h("b", { text: `+${num(S.sinceLast)}` }), "since your last look"));
     if (!m.tl.hasHist) chips.push(h("span", { class: "chip dim", text: "no history yet" }));
     $("hero-chips").replaceChildren(...chips);
@@ -843,6 +845,7 @@
     if (m.bestDay) add("Best day", num(m.bestDay.vals[0]), "most downloads in one day", `${fWeekday.format(m.bestDay.t0)}${m.bestDay.partialStart ? " (partial)" : m.bestDay.inProgress ? " (today)" : ""}`);
     if (m.meta && m.meta.s != null) add("GitHub stars", num(m.meta.s), "periph-site, from the last snapshot", `${plural(m.meta.f || 0, "fork")} · ${plural(m.meta.w || 0, "watcher")}`);
     else add("GitHub stars", "—", "recorded by the snapshots");
+    if (m.meta && m.meta.c) add("Website updated", daysAgoText(m.meta.c * 1000, m.now), "last commit to periph-site", fDayTime.format(m.meta.c * 1000));
     $("facts").replaceChildren(...rows);
   }
 
@@ -1080,7 +1083,7 @@
     const avg = actual / installs, avgFull = full / installs, saved = Math.max(0, full - actual);
     el.replaceChildren(head,
       h("div", { class: "big-range" }, bytes(saved), h("small", { text: " saved" })),
-      h("p", { class: "sub" }, h("b", { text: `Average update ${bytes(avg)}` }), ` vs ${bytes(avgFull)} for the full installer: ${avgFull ? Math.round((1 - avg / avgFull) * 100) : 0}% smaller, over ${plural(installs, "update")}. `,
+      h("p", { class: "sub" }, h("b", { text: `Average update ${bytes(avg)}` }), ` vs ${bytes(avgFull)} for the full installer: ${(() => { const d = avgFull ? Math.round((1 - avg / avgFull) * 100) : 0; return d < 0 ? `${-d}% larger` : `${d}% smaller`; })()}, over ${plural(installs, "update")}. `,
         "Update files downloaded × their size, compared with each install downloading the installer instead.", m.updEst ? " Partly estimated where the platform isn't known." : ""),
       payload);
   }

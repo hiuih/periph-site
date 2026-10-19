@@ -9,7 +9,8 @@ https://raw.githubusercontent.com/hiuih/periph-site/stats-data/history.json.
 What is recorded, and nothing else (all of it public through the GitHub API):
   - each release asset's download_count, plus its name, size, release and upload time;
   - the repo's stars, forks and watchers;
-  - which release is the latest one, and when each release was published.
+  - which release is the latest one, and when each release was published;
+  - when the website (the repo's default branch) last got a commit.
 
 File format (v 1), kept small:
   first     unix time of the first snapshot
@@ -18,7 +19,7 @@ File format (v 1), kept small:
   assets    [[asset_id, tag, name, size, created_unix], ...]   append-only; points use the
             position in this list as the key
   points    [[unix, {"<asset pos>": count, ...}, {"s": stars, "f": forks, "w": watchers,
-            "l": latest_tag}], ...]
+            "l": latest_tag, "c": last site commit unix}], ...]
             Each point holds only the values that changed since the point before it, as
             new totals (the first point holds everything that wasn't 0). The repo dict is
             left out when none of its values changed. A run where nothing changed adds no
@@ -26,7 +27,7 @@ File format (v 1), kept small:
   Points older than --hourly-days are merged into one per UTC day (that day's final
   values), so the file grows by about one small point a day in the long run.
 
-Run it locally against the live public API (3+ requests; a token is optional):
+Run it locally against the live public API (4+ requests; a token is optional):
     python3 .github/scripts/stats_snapshot.py --history /tmp/history.json
     python3 .github/scripts/stats_snapshot.py --dry-run
 """
@@ -120,8 +121,12 @@ def fetch(api, repo):
                 continue
             assets[a["id"]] = (tag, a["name"], a["size"], unix(a.get("created_at")), a["download_count"])
     latest, _ = api.get(f"/repos/{repo}/releases/latest")
+    branch = info.get("default_branch") or "main"
+    head, _ = api.get(f"/repos/{repo}/commits/{branch}")   # when the website itself last changed
+    committed = unix(((head or {}).get("commit") or {}).get("committer", {}).get("date"))
     meta = {"s": info.get("stargazers_count", 0), "f": info.get("forks_count", 0),
-            "w": info.get("subscribers_count", 0), "l": (latest or {}).get("tag_name", "")}
+            "w": info.get("subscribers_count", 0), "l": (latest or {}).get("tag_name", ""),
+            "c": committed}
     return releases, assets, meta
 
 
