@@ -22,6 +22,7 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html, body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--body); }
 body { min-height: 100vh; overflow-x: hidden;
   padding: max(28px, env(safe-area-inset-top, 0px)) max(16px, 4vw, env(safe-area-inset-right, 0px)) max(48px, env(safe-area-inset-bottom, 0px)) max(16px, 4vw, env(safe-area-inset-left, 0px)); }
@@ -74,6 +75,7 @@ th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--lin
 th { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 td.num, th.num { text-align: right; }
 td.n { font: 700 16px var(--display); }
+@media (max-width: 480px) { th:nth-child(2), td:nth-child(2) { display: none; } th, td { padding: 10px 6px; } }
 tr { opacity: 0; transform: translateY(6px); animation: in .5s forwards; }
 @keyframes in { to { opacity: 1; transform: none; } }
 .msg { font: 400 13px var(--mono); color: #ff8a8a; }
