@@ -24,7 +24,7 @@
   const FRESH_MS = 60000;              // a cached answer younger than this is used without asking again
   const GAP_MS = 20000;                // automatic refreshes (resume, focus, online) at most this often
   const HOUR = 3600e3, DAY = 86400e3;
-  const TABS = ["overview", "downloads", "updates", "releases"];
+  const TABS = ["overview", "downloads", "updates", "releases", "requests", "agent"];
   const MILESTONES = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1e6];
   const C = { win: "#d4ff3a", winU: "#8a9f2e", mac: "#8fb3ff", macU: "#4d6fbf", surface: "#121418" };
 
@@ -1339,6 +1339,7 @@
     if (prev !== name) scrollTo(0, scrollPos[name] || 0);
     if (!opts.noHash && location.hash !== "#" + name) history.replaceState(null, "", "#" + name);
     saveUi();
+    dispatchEvent(new CustomEvent("statstab", { detail: name }));   // admin.js renders Requests / Agent
   }
   function moveInd() {
     const b = $("t-" + S.tab), ind = $("tabind");

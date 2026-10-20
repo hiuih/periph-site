@@ -17,8 +17,10 @@
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="preload" href="../fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/mono.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="app.css?v=3">
-<script src="app.js?v=3" defer></script>
+<link rel="stylesheet" href="app.css?v=4">
+<link rel="stylesheet" href="admin.css?v=4">
+<script src="app.js?v=4" defer></script>
+<script src="admin.js?v=4" defer></script>
 </head>
 <body>
 <noscript><p class="noscript">This page needs JavaScript.</p></noscript>
@@ -50,6 +52,10 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8m0-5v5h5M4 13a8 8 0 0 0 14.3 4.9L20 16m0 5v-5h-5"/></svg><span>Updates</span></button>
         <button class="tab" role="tab" id="t-releases" data-tab="releases" aria-controls="p-releases">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.6 6.6a1.4 1.4 0 0 1-2 0z"/><circle cx="8.2" cy="8.2" r="1.6"/></svg><span>Releases</span></button>
+        <button class="tab" role="tab" id="t-requests" data-tab="requests" aria-controls="p-requests">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4zM8 9h8M8 12h5"/></svg><span>Requests</span><i class="tab-badge" id="req-badge" hidden></i></button>
+        <button class="tab" role="tab" id="t-agent" data-tab="agent" aria-controls="p-agent">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg><span>Agent</span></button>
       </nav>
       <div class="status">
         <span class="pulse" id="pulse" aria-hidden="true"><i></i></span>
@@ -277,6 +283,12 @@
           <p class="sub">Windows and macOS are installer downloads. Updates are in-app updates onto that version (≈ marks an estimate). Total is all three added up.</p>
         </article>
       </div>
+    </section>
+    <section class="panel" id="p-requests" role="tabpanel" aria-labelledby="t-requests" tabindex="-1" hidden>
+      <div class="grid" id="adm-requests"></div>
+    </section>
+    <section class="panel" id="p-agent" role="tabpanel" aria-labelledby="t-agent" tabindex="-1" hidden>
+      <div class="grid" id="adm-agent"></div>
     </section>
   </main>
 

@@ -1,8 +1,8 @@
 /* periph stats: keeps the page itself (HTML, CSS, JS, fonts, icons) on the device so it opens
    offline from the home screen. The numbers aren't cached here: the page keeps its own last
    known copy. Network first for the page, so a new version shows as soon as you're online. */
-const CACHE = "periph-stats-v3";
-const SHELL = ["./", "app.css?v=3", "app.js?v=3", "manifest.webmanifest",
+const CACHE = "periph-stats-v4";
+const SHELL = ["./", "app.css?v=4", "app.js?v=4", "admin.css?v=4", "admin.js?v=4", "manifest.webmanifest",
   "../fonts/bricolage.woff2", "../fonts/plex.woff2", "../fonts/mono.woff2",
   "../icon-192.png", "../favicon-32.png", "../apple-touch-icon.png"];
 
