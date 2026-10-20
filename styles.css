@@ -243,13 +243,27 @@ input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--
 /* request a device */
 .req { position: relative; display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px 48px; align-items: start; padding: clamp(28px, 4vw, 48px); border: 1px solid var(--line2); border-radius: 28px; background: radial-gradient(600px circle at 0% 0%, rgba(212,255,58,.07), transparent 60%), #0e1013; overflow: hidden; }
 .req-copy .sec-lead { max-width: 520px; }
-.req-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; align-self: center; }
-.req-steps li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: center; padding: 14px 16px; border: 1px solid var(--line2); border-radius: 14px; background: rgba(255,255,255,.015); font-size: 13.5px; color: var(--fg2); }
-.req-steps b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(212,255,58,.12); color: var(--lime); font-weight: 700; }
-.req-steps code { color: var(--lime); }
-.req-cta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; }
-.req > .small { grid-column: 1 / -1; margin: -12px 0 0; }
-@media (max-width: 860px) { .req { grid-template-columns: 1fr; } .req-cta .btn { flex: 1 1 200px; } }
+.req-form { display: grid; gap: 14px; align-self: center; }
+.req-field { display: grid; gap: 8px; }
+.req-field > span, .req-os legend { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.req-field i, .req-os i { font-style: normal; text-transform: none; letter-spacing: 0; color: var(--faint); }
+.req-field input { width: 100%; min-height: 52px; padding: 0 16px; border: 1px solid var(--line2); border-radius: 14px; background: #0b0c0e; color: var(--fg); font: 500 16px/1 var(--sans, inherit); transition: border-color .15s, box-shadow .2s; }
+.req-field input::placeholder { color: var(--faint); }
+.req-field input:focus { outline: none; border-color: var(--lime); box-shadow: 0 0 0 4px rgba(212,255,58,.12); }
+.req-os { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: 0; }
+.req-os legend { width: 100%; margin-bottom: 8px; padding: 0; }
+.req-os label { position: relative; }
+.req-os input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.req-os span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid var(--line2); border-radius: 999px; color: var(--fg2); font-size: 14px; transition: border-color .15s, background .15s, color .15s; }
+.req-os input:checked + span { border-color: var(--lime); background: rgba(212,255,58,.1); color: var(--lime); }
+.req-os input:focus-visible + span { outline: 2px solid var(--lime); outline-offset: 2px; }
+.req-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.req-form .btn { width: 100%; margin-top: 4px; }
+.req-form .btn[disabled] { opacity: .6; cursor: progress; }
+.req-msg { min-height: 1.4em; margin: 0; color: var(--dim); }
+.req-msg.ok { color: var(--lime); }
+.req-msg.err { color: #ff8a8a; }
+@media (max-width: 860px) { .req { grid-template-columns: 1fr; } }
 .dl-btns { margin: 36px 0 22px; display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); gap: 14px; width: 100%; justify-content: center; }
 .dl-card { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; gap: 4px 16px; align-items: center; padding: 20px 22px; border-radius: 18px; text-align: left; text-decoration: none; border: 1px solid var(--line2); background: #101215; transition: transform .15s, border-color .15s, background .15s, box-shadow .2s; }
 .dl-card svg { grid-row: span 2; }

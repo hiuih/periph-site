@@ -355,18 +355,27 @@
       <div class="req-copy">
         <p class="kicker mono">Missing your gear?</p>
         <h2 id="req-title" class="h2 split">Ask for it.</h2>
-        <p class="sec-lead">Tell us the keyboard, mouse, headset, controller or wheel you want periph to support. New devices ship in a batch every month, straight to everyone through the in-app updater.</p>
+        <p class="sec-lead">Name the keyboard, mouse, headset, controller or wheel you want periph to support. That's all we need: we look up the rest. New devices ship every month, straight to everyone through the in-app updater.</p>
       </div>
-      <ol class="req-steps mono">
-        <li><b>1</b><span>Open the request form and pick your device type.</span></li>
-        <li><b>2</b><span>Paste its USB ID if you can. <code>periph devices</code> shows it.</span></li>
-        <li><b>3</b><span>List the controls you want. Every one we can support, we add.</span></li>
-      </ol>
-      <div class="req-cta">
-        <a class="btn btn-lime btn-lg" href="https://github.com/hiuih/periph-site/issues/new?template=device-request.yml" target="_blank" rel="noopener">Request a device</a>
-        <a class="btn btn-ghost btn-lg" href="https://github.com/hiuih/periph-site/issues?q=label%3Adevice-request" target="_blank" rel="noopener">See requests</a>
-      </div>
-      <p class="small dim">Uses a free GitHub account. Requests are public, so don't include personal info.</p>
+      <form class="req-form" id="reqform" novalidate>
+        <label class="req-field">
+          <span class="mono">Which device?</span>
+          <input id="rq-device" name="device" type="text" maxlength="120" autocomplete="off" required placeholder="e.g. Attack Shark X68HE">
+        </label>
+        <label class="req-field">
+          <span class="mono">What do you want to control? <i>optional</i></span>
+          <input id="rq-wants" name="wants" type="text" maxlength="600" autocomplete="off" placeholder="e.g. rapid trigger, RGB, DPI">
+        </label>
+        <fieldset class="req-os">
+          <legend class="mono">On <i>optional</i></legend>
+          <label><input type="radio" name="os" value="windows"><span>Windows</span></label>
+          <label><input type="radio" name="os" value="mac"><span>Mac</span></label>
+          <label><input type="radio" name="os" value="both"><span>Both</span></label>
+        </fieldset>
+        <label class="req-hp" aria-hidden="true">Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+        <button class="btn btn-lime btn-lg" type="submit" id="rq-send">Request it</button>
+        <p class="req-msg small" id="rq-msg" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </div>
 </section>

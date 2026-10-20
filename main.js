@@ -791,4 +791,35 @@
   }
 
   kick();
+
+  // ------------------------------------------------------------ request a device
+  // Posts to a small public endpoint (Supabase edge function); no account needed.
+  const reqForm = $("#reqform");
+  if (reqForm) {
+    const REQ_URL = "https://elpwstkkzecdhzjdmtfp.supabase.co/functions/v1/periph-request";
+    const msg = $("#rq-msg"), send = $("#rq-send");
+    const say = (t, cls) => { msg.textContent = t; msg.className = "req-msg small" + (cls ? " " + cls : ""); };
+    reqForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(reqForm);
+      const device = String(fd.get("device") || "").trim();
+      if (device.length < 2) { say("Tell us which device first.", "err"); $("#rq-device").focus(); return; }
+      send.disabled = true; say("Sending…");
+      try {
+        const r = await fetch(REQ_URL, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ device, wants: fd.get("wants") || "", os: fd.get("os") || "", website: fd.get("website") || "" }),
+        });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error || "Couldn't send that. Try again.");
+        reqForm.reset();
+        say(`Got it. ${device} is on the list for the next monthly update.`, "ok");
+      } catch (err) {
+        say(err.message || "Couldn't send that. Try again.", "err");
+      } finally {
+        send.disabled = false;
+      }
+    });
+  }
 })();
