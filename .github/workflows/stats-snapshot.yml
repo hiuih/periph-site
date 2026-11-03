@@ -55,3 +55,17 @@ jobs:
           fi
           git commit -q -m "snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
           git push -q origin HEAD:refs/heads/stats-data
+
+  # Supabase pauses free projects after a week without activity, which would break the website's request
+  # form and the stats dashboard. This hourly call (refused with "Wrong key.") reaches the database, so it
+  # counts as activity. It never fails the workflow.
+  keepalive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Touch the periph backend
+        continue-on-error: true
+        run: |
+          curl -sS -m 20 -X POST "https://erdoijtwfaoxhjdijyhp.supabase.co/functions/v1/periph-admin" \
+            -H "content-type: application/json" -H "authorization: Bearer keepalive-no-access-0000000000" \
+            -d '{"action":"list"}' || true
