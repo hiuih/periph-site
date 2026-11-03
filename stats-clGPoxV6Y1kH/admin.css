@@ -49,3 +49,14 @@
 .adm-go[disabled] { opacity: .55; cursor: default; box-shadow: none; }
 .toast.bad { color: #ffc0c0; }
 @media (prefers-reduced-motion: reduce) { .adm-pill.r-running, .adm-skel, .adm-req-body { animation: none; } }
+
+/* telemetry tab */
+.tel-bars { display: flex; flex-direction: column; gap: 8px; }
+.tel-bar { display: grid; grid-template-columns: minmax(70px, 150px) 1fr auto; gap: 12px; align-items: center; font-size: 13px; }
+.tel-k { color: var(--text, #e8eaed); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tel-track { height: 8px; border-radius: 4px; background: rgba(255,255,255,.07); overflow: hidden; }
+.tel-track i { display: block; height: 100%; border-radius: 4px; background: var(--lime, #d4ff3a); }
+.tel-v { font: 500 12px var(--mono); color: var(--muted, #8a9099); font-variant-numeric: tabular-nums; }
+.tel-row { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line, rgba(255,255,255,.08)); }
+.tel-row .tel-v { margin-left: auto; }
+.tel-err { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; border-bottom: 1px solid var(--line, rgba(255,255,255,.08)); }

@@ -796,7 +796,7 @@
   // Posts to a small public endpoint (Supabase edge function); no account needed.
   const reqForm = $("#reqform");
   if (reqForm) {
-    const REQ_URL = "https://elpwstkkzecdhzjdmtfp.supabase.co/functions/v1/periph-request";
+    const REQ_URL = "https://erdoijtwfaoxhjdijyhp.supabase.co/functions/v1/periph-request";
     const msg = $("#rq-msg"), send = $("#rq-send");
     const say = (t, cls) => { msg.textContent = t; msg.className = "req-msg small" + (cls ? " " + cls : ""); };
     reqForm.addEventListener("submit", async (e) => {

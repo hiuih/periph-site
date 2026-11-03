@@ -7,7 +7,7 @@
                and see every run with its status, version and summary. */
 "use strict";
 (() => {
-  const API = "https://elpwstkkzecdhzjdmtfp.supabase.co/functions/v1/periph-admin";
+  const API = "https://erdoijtwfaoxhjdijyhp.supabase.co/functions/v1/periph-admin";
   const KEY = "periph-admin-key";
   const STATUS = {
     new: "New", researching: "Researching", added: "Added", "needs-info": "Needs info",
@@ -31,7 +31,7 @@
   };
   const when = (iso) => iso ? new Date(iso).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
 
-  const S = { data: null, loading: false, error: "", filter: "open", open: new Set(), tab: "", poll: 0 };
+  const S = { tel: null, telDays: 30, telErr: "", telLoading: false, data: null, loading: false, error: "", filter: "open", open: new Set(), tab: "", poll: 0 };
 
   async function api(action, body = {}) {
     const r = await fetch(API, {
@@ -230,9 +230,84 @@
     const w = el("div", "span-all"); w.append(lock); root.append(w);
   }
 
+
+  // ------------------------------------------------------------------ Telemetry
+  async function loadTelemetry(quiet) {
+    if (!store.get() || S.telLoading) return;
+    S.telLoading = true; if (!quiet) renderTelemetry();
+    try { S.tel = (await api("telemetry", { days: S.telDays })).summary; S.telErr = ""; }
+    catch (e) { S.telErr = e.message; }
+    S.telLoading = false; renderTelemetry();
+  }
+  function bars(rows, label, value, fmt) {
+    const max = Math.max(1, ...rows.map(value));
+    const list = el("div", "tel-bars");
+    for (const r of rows) {
+      const row = el("div", "tel-bar");
+      const fill = el("i"); fill.style.width = Math.max(2, (value(r) / max) * 100) + "%";
+      const track = el("span", "tel-track"); track.append(fill);
+      row.append(el("span", "tel-k", label(r)), track, el("span", "tel-v", fmt ? fmt(r) : String(value(r))));
+      list.append(row);
+    }
+    return list;
+  }
+  function renderTelemetry() {
+    const root = $("adm-telemetry"); if (!root) return;
+    root.replaceChildren();
+    if (!store.get()) return connectCard(root);
+    if (S.telLoading && !S.tel) { const c = card("Loading…"); c.append(el("div", "adm-skel")); root.append(c); return; }
+    if (S.telErr && !S.tel) { const c = card("Couldn't load"); c.append(el("p", "sub adm-err", S.telErr)); const b = el("button", "btn", "Try again"); b.onclick = () => loadTelemetry(); c.append(b); root.append(c); return; }
+    const t = S.tel; if (!t) return;
+    const sel = el("div", "chips adm-filter span-all");
+    for (const d of [7, 30, 90]) { const p = el("button", "chip" + (S.telDays === d ? " new" : ""), "Last " + d + " days"); p.type = "button"; p.onclick = () => { S.telDays = d; loadTelemetry(); }; sel.append(p); }
+    root.append(sel);
+    const tiles = el("div", "tiles span-all");
+    for (const [k, v, cls] of [["Active installs", t.installs, "lime"], ["Events", t.events, ""], ["Sessions", t.sessions, ""], ["Avg session", t.session_minutes != null ? t.session_minutes + " min" : "—", ""]]) {
+      const x = el("div", "tile adm-tile " + cls); x.append(el("div", "adm-tile-k", k), el("div", "adm-tile-v", String(v))); tiles.append(x);
+    }
+    root.append(tiles);
+    if (!t.events) { const c = card("No data yet", "opt-in"); c.append(el("p", "sub", "Reports arrive once people accept the prompt in the app. Nothing is sent without that.")); root.append(c); return; }
+
+    let c = card("Active installs per day", "anonymous");
+    c.append(bars(t.daily, (r) => r.day.slice(5), (r) => r.installs, (r) => r.installs + " · " + r.events + " events")); root.append(c);
+    c = card("Versions"); c.append(bars(t.versions, (r) => "v" + r.version, (r) => r.installs, (r) => r.installs + " installs")); root.append(c);
+    c = card("Windows vs Mac"); c.append(bars(t.os, (r) => ({ win: "Windows", mac: "macOS" }[r.os] || r.os), (r) => r.installs)); root.append(c);
+    c = card("Pages people use"); c.append(t.views.length ? bars(t.views, (r) => r.view || "?", (r) => r.n, (r) => r.n + " · " + r.installs + " installs") : el("p", "sub", "No page views yet.")); root.append(c);
+
+    c = card("Devices seen", "USB vendor:product only");
+    const dl = el("div", "adm-list");
+    if (!t.devices.length) dl.append(el("p", "sub", "None yet."));
+    for (const d of t.devices) {
+      const row = el("div", "tel-row"); row.append(el("b", "mono", d.vidpid || "?"), el("span", "sub", [d.driver, d.family].filter(Boolean).join(" · ")),
+        el("span", "adm-pill " + (d.supported ? "s-added" : "s-not-possible"), d.supported ? "supported" : "not supported"), el("span", "tel-v", d.installs + " installs")); dl.append(row);
+    }
+    c.append(dl); root.append(c);
+
+    c = card("What works and what fails", "device actions");
+    const al = el("div", "adm-list");
+    if (!t.actions.length) al.append(el("p", "sub", "No actions yet."));
+    for (const a of t.actions) {
+      const pct = a.total ? Math.round((a.failed / a.total) * 100) : 0;
+      const row = el("div", "tel-row"); row.append(el("b", null, (a.driver || "?") + " · " + (a.name || "?")), el("span", "sub", a.total + " runs"),
+        el("span", "adm-pill " + (pct >= 20 ? "s-spam" : pct ? "s-needs-info" : "s-added"), pct ? pct + "% fail" : "all ok")); al.append(row);
+    }
+    c.append(al); root.append(c);
+
+    c = card("Top errors", "scrubbed");
+    const el2 = el("div", "adm-list");
+    if (!t.errors.length) el2.append(el("p", "sub", "No errors reported."));
+    for (const e of t.errors) {
+      const row = el("div", "tel-err"); row.append(el("b", null, (e.type || e.event) + (e.place ? " · " + e.place : "")), el("span", "sub", ago(e.last_seen) + " · " + e.n + "× · " + e.installs + " installs"));
+      if (e.msg) row.append(el("pre", "adm-notes", e.msg)); el2.append(row);
+    }
+    c.append(el2); root.append(c);
+
+    if (t.features.length) { c = card("Features and settings"); c.append(bars(t.features, (r) => (r.name || r.event) + (r.value ? " = " + r.value : ""), (r) => r.n)); root.append(c); }
+  }
+
   // ------------------------------------------------------------------ plumbing
   function renderAll() {
-    renderRequests(); renderAgent();
+    renderRequests(); renderAgent(); renderTelemetry();
     const badge = $("req-badge");
     const n = S.data ? S.data.requests.filter((r) => r.status === "new").length : 0;
     if (badge) { badge.hidden = !n; badge.textContent = n > 99 ? "99+" : String(n); }
@@ -252,6 +327,7 @@
   }
   addEventListener("statstab", (e) => {
     S.tab = e.detail;
+    if (S.tab === "telemetry") { if (store.get()) loadTelemetry(!!S.tel); else renderTelemetry(); return; }
     if ((S.tab === "requests" || S.tab === "agent") && store.get()) load(!!S.data); else schedulePoll();
   });
   document.addEventListener("visibilitychange", () => { if (!document.hidden && (S.tab === "requests" || S.tab === "agent")) load(true); });
